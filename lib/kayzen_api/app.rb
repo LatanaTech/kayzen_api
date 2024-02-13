@@ -3,10 +3,10 @@ module KayzenApi
     extend Dry::Configurable
 
     setting :base_url, default: "https://api.kayzen.io/v1/"
-    setting :grant_type, default: "password"
-    setting :logger
+    setting :oauth_token
     setting :username
     setting :password
-
+    setting :grant_type, default: "password"
+    setting :logger
   end
 end
