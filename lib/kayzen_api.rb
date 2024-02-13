@@ -1,8 +1,5 @@
-# frozen_string_literal: true
-
-require_relative "kayzen_api/version"
+require 'kayzen_api/version'
+require 'kayzen_api/app'
 
 module KayzenApi
-  class Error < StandardError; end
-  # Your code goes here...
 end
