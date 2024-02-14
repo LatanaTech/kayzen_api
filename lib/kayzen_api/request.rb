@@ -26,6 +26,8 @@ module KayzenApi
     private
 
     def make_request(**options)
+      authorize_request!
+
       options = add_headers(options)
       target_url = App.config.base_url + @path
 
@@ -35,6 +37,12 @@ module KayzenApi
           .run
 
       handle_response(response)
+    end
+
+    def authorize_request!
+      return if App.config.oauth_token.present? && App.config.oauth_token.valid?
+
+      AuthenticationToken.create
     end
 
     def add_headers(options)

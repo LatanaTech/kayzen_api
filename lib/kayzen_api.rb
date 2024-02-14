@@ -2,6 +2,7 @@ require 'dry-configurable'
 require 'dry-struct'
 require 'dry-types'
 
+require 'kayzen_api/errors'
 require 'kayzen_api/types'
 require 'kayzen_api/version'
 require 'kayzen_api/app'

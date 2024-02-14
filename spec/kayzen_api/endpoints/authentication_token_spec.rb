@@ -51,6 +51,7 @@ RSpec.describe KayzenApi::AuthenticationToken do
         expect {
           response = authentication_token.create
         }.to change { KayzenApi::App.config.oauth_token }.from(nil).to(oauth_token)
+        .and change { KayzenApi::App.config.oauth_token_expires_at }.from(nil)
 
         expect(stubbed_request).to have_been_requested
         expect(response.success).to eq(true)
@@ -85,6 +86,34 @@ RSpec.describe KayzenApi::AuthenticationToken do
         expect(response.success).to eq(false)
         expect(response.code).to eq(400)
         expect(response.body).to eq(mock_authentication_response_body)
+      end
+    end
+
+    context "when an essential configuration field is missing" do
+      let(:mocked_response) { {} }
+      let(:mock_authentication_response_body) { {} }
+
+      it "raises a MissingConfiguration error for missing username" do
+        KayzenApi::App.config.username = nil
+        expect { authentication_token.create }.to raise_error(KayzenApi::Errors::MissingConfiguration, "Username is required")
+        KayzenApi::App.config.username = username
+      end
+
+      it "raises a MissingConfiguration error for missing password" do
+        KayzenApi::App.config.password = nil
+        expect { authentication_token.create }.to raise_error(KayzenApi::Errors::MissingConfiguration, "Password is required")
+        KayzenApi::App.config.password = password
+      end
+
+      it "raises a MissingConfiguration error for missing API key" do
+        KayzenApi::App.config.api_key = nil
+        expect { authentication_token.create }.to raise_error(KayzenApi::Errors::MissingConfiguration, "API Key is required")
+        KayzenApi::App.config.api_key = api_key
+      end
+
+      it "raises a MissingConfiguration error for missing secret API key" do
+        KayzenApi::App.config.secret_api_key = nil
+        expect { authentication_token.create }.to raise_error(KayzenApi::Errors::MissingConfiguration)
       end
     end
   end
