@@ -12,11 +12,13 @@ module KayzenApi
       super
     end
 
-    def self.save_oauth_token(response)
+    def self.handle_response(response)
       return unless response.success?
 
       oauth_token = JSON.parse(response.body).fetch("access_token")
       App.config.oauth_token = oauth_token
+
+      super
     end
   end
 end

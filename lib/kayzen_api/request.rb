@@ -34,9 +34,7 @@ module KayzenApi
           .new(target_url, options)
           .run
 
-
       handle_response(response)
-      response
     end
 
     def add_headers(options)
@@ -47,10 +45,9 @@ module KayzenApi
 
     def handle_response(response)
       if response.success?
-        save_oauth_token(response)
-        Response.new(success: true, code: response.code, body: response.body)
+        Response.new(success: true, code: response.code, body: JSON.parse(response.body))
       else
-        Response.new(success: false, code: response.code, body: response.body)
+        Response.new(success: false, code: response.code, body: JSON.parse(response.body))
       end
     end
   end
