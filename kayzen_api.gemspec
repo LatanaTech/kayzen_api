@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.authors = ["Jonathan Senior"]
   spec.email = ["jonosenior@gmail.com"]
 
-  spec.summary = "TODO: Write a short summary, because RubyGems requires one."
+  spec.summary = "Ruby client for the Kayzen API"
   spec.description = "Ruby client for the Kayzen API"
   spec.homepage = "https://github.com/LatanaTech/kayzen_api"
   spec.license = "MIT"
@@ -32,8 +32,7 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  # Uncomment to register a new dependency of your gem
-  # spec.add_dependency "example-gem", "~> 1.0"
+  spec.add_dependency "dry-configurable", "~> 1.1.0"
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html

@@ -1,3 +1,5 @@
+require 'dry-configurable'
+
 module KayzenApi
   class App
     extend Dry::Configurable
