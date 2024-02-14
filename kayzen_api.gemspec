@@ -33,6 +33,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "dry-configurable", "~> 1.1.0"
+  spec.add_dependency "dry-struct", "~> 1.6"
+  spec.add_dependency "dry-types", "~> 1.7"
   spec.add_dependency "typhoeus", "~> 1.4"
 
   # For more information and examples about making a new gem, check out our

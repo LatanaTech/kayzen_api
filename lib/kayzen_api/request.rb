@@ -34,7 +34,8 @@ module KayzenApi
           .new(target_url, options)
           .run
 
-      save_oauth_token(response)
+
+      handle_response(response)
       response
     end
 
@@ -42,6 +43,15 @@ module KayzenApi
       options[:headers] = (options[:headers] || {}).merge({ "Content-Type" => "application/json" })
       options[:headers] = (options[:headers] || {}).merge({ "Accept" => "application/json"})
       options
+    end
+
+    def handle_response(response)
+      if response.success?
+        save_oauth_token(response)
+        Response.new(success: true, code: response.code, body: response.body)
+      else
+        Response.new(success: false, code: response.code, body: response.body)
+      end
     end
   end
 end
