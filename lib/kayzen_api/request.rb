@@ -25,13 +25,12 @@ module KayzenApi
     private
 
     def request_for(**options)
-      target_url = App.config.base_url + options[:path]
-
-      if options.has_key?(:body_params)
-        options[:headers] = { "Content-Type" => "application/json" }
-      end
+      target_url = App.config.base_url + @path
+      # options.merge!(headers: { "Content-Type" => "application/json" })
+      # options.merge!(headers: { "Accept" => "application/json"})
 
       request = Typhoeus::Request.new(target_url, options)
+      request.run
 
 
 
