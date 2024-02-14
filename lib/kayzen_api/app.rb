@@ -6,7 +6,6 @@ module KayzenApi
 
     setting :base_url, default: "https://api.kayzen.io/v1/"
     setting :oauth_token
-    setting :grant_type, default: "password"
     setting :username
     setting :password
     setting :api_key

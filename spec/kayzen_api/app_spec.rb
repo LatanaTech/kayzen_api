@@ -4,12 +4,11 @@ RSpec.describe KayzenApi::App do
   describe "config" do
     it "contains all the config options" do
       expect(app.config.to_h.keys)
-        .to match_array(%i[base_url oauth_token username password grant_type api_key secret_api_key logger])
+        .to match_array(%i[base_url oauth_token username password api_key secret_api_key logger])
     end
 
     it "sets the correct default values" do
       expect(app.config.base_url).to eq "https://api.kayzen.io/v1/"
-      expect(app.config.grant_type).to eq "password"
 
       expect(app.config.oauth_token).to eq nil
       expect(app.config.username).to eq nil
