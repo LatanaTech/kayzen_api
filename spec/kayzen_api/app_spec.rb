@@ -7,7 +7,7 @@ RSpec.describe KayzenApi::App do
         .to match_array(%i[base_url oauth_token username password grant_type api_key secret_api_key logger])
     end
 
-    it "sets default values" do
+    it "sets the correct default values" do
       expect(app.config.base_url).to eq "https://api.kayzen.io/v1/"
       expect(app.config.grant_type).to eq "password"
 

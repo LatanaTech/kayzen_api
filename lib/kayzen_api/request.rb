@@ -5,42 +5,43 @@ module KayzenApi
   module Request
     def get(**options)
       options[:method] = :get
-      request_for(**options)
+      make_request(**options)
     end
 
     def create(**options)
       options[:method] = :post
-      request_for(**options)
+      make_request(**options)
     end
 
     def update(**options)
       options[:method] = :put
-      request_for(**options)
+      make_request(**options)
     end
 
     def delete(**options)
       options[:method] = :delete
-      request_for(**options)
+      make_request(**options)
     end
 
     private
 
-    def request_for(**options)
+    def make_request(**options)
+      options = add_headers(options)
       target_url = App.config.base_url + @path
-      options[:headers] = (options[:headers] || {}).merge({ "Content-Type" => "application/json" })
-      options[:headers] = (options[:headers] || {}).merge({ "Accept" => "application/json"})
 
-      request = Typhoeus::Request.new(target_url, options)
-      response = request.run
-      save_oauth_token(request)
-      request
+      response =
+        Typhoeus::Request
+          .new(target_url, options)
+          .run
+
+      save_oauth_token(response)
+      response
     end
 
-    def save_oauth_token(request)
-      return unless request.response.code == 200
-
-      json = JSON.parse(request.response.body)
-      App.config.oauth_token = json["access_token"]
+    def add_headers(options)
+      options[:headers] = (options[:headers] || {}).merge({ "Content-Type" => "application/json" })
+      options[:headers] = (options[:headers] || {}).merge({ "Accept" => "application/json"})
+      options
     end
   end
 end
