@@ -1,4 +1,5 @@
 require 'typhoeus'
+require 'base64'
 
 module KayzenApi
   module Request
@@ -26,16 +27,13 @@ module KayzenApi
 
     def request_for(**options)
       target_url = App.config.base_url + @path
+      options[:headers] = (options[:headers] || {}).merge({ "Content-Type" => "application/json" })
+      options[:headers] = (options[:headers] || {}).merge({ "Accept" => "application/json"})
       # options.merge!(headers: { "Content-Type" => "application/json" })
       # options.merge!(headers: { "Accept" => "application/json"})
 
       request = Typhoeus::Request.new(target_url, options)
       request.run
-
-
-
-      # if self.class == AuthenticationToken
-      # end
     end
   end
 end

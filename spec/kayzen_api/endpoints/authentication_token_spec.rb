@@ -2,33 +2,37 @@ require "spec_helper"
 
 RSpec.describe KayzenApi::AuthenticationToken do
   subject(:authentication_token) { described_class }
-  let(:headers) { { "Content-Type" => "application/json" } }
+  let(:api_key) { "api_key" }
+  let(:secret_api_key) { "secret_api_key" }
+  let(:base_64_encoded_api_key) { "YXBpX2tleTpzZWNyZXRfYXBpX2tleQ==\n" }
+  # let(:headers) { { "Content-Type" => "application/json" } }
 
   before do
+    KayzenApi::App.configure do |config|
+      config.api_key = api_key
+      config.secret_api_key = secret_api_key
+    end
   end
 
-  after do
-    Typhoeus::Expectation.clear
+  before do
+    @stub =
+      stub_request(:post, "https://api.kayzen.io/v1/authentication/token")
+        .with(
+          body: "grant_type=password&password=secret&username=username",
+          headers: {
+          'Expect'=>'',
+          'User-Agent'=>'Typhoeus - https://github.com/typhoeus/typhoeus',
+          'Content-Type'=>'application/json',
+          'Accept'=>'application/json',
+          'Authorization'=> "Basic #{base_64_encoded_api_key}"
+          })
+        .to_return(status: 200, body: "", headers: {})
   end
 
-  it "make a post request" do
-    response_body =
-      {
-        "access_token": "some_token",
-        "expires_in": "1799",
-        "scope": ""
-      }
-    stubbed_response = Typhoeus::Response.new(code: 200, body: response_body)
-
-    Typhoeus
-      .stub('https://api.kayzen.io/v1/authentication/token')
-      .and_return(stubbed_response) do |request|
-        expect(request.method).to eq :get
-        expect(request.options[:headers]).to eq "lksajdf"
-      end
-
+  it "makes a post request" do
     body_params = { username: "username", password: "secret", grant_type: "password" }
-    response = authentication_token.create(body_params: body_params)
-    expect(response).to eq(stubbed_response)
-  end
+    response = authentication_token.create(body: body_params)
+
+    expect(@stub).to have_been_requested
+   end
 end

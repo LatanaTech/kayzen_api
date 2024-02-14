@@ -9,3 +9,4 @@ gem "rake", "~> 13.0"
 
 gem "rspec", "~> 3.0"
 gem "byebug", "~> 11.1"
+gem 'webmock', '~> 3.19', '>= 3.19.1'
