@@ -1,5 +1,4 @@
 require 'typhoeus'
-require 'yajl'
 
 module KayzenApi
   module Request
@@ -40,3 +39,4 @@ module KayzenApi
       # end
     end
   end
+end

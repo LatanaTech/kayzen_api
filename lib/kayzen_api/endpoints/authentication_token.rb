@@ -1,4 +1,4 @@
-module BeeswaxAPI
+module KayzenApi
   class AuthenticationToken < Endpoint
     path "authentication/token"
   end

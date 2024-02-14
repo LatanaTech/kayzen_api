@@ -1,4 +1,4 @@
-require 'kayzen/request'
+require 'kayzen_api/request'
 
 module KayzenApi
   class Endpoint
