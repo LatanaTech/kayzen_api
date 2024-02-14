@@ -11,6 +11,9 @@ RSpec.describe KayzenApi::AuthenticationToken do
     KayzenApi::App.configure do |config|
       config.api_key = api_key
       config.secret_api_key = secret_api_key
+      config.username = "username"
+      config.password = "secret"
+      config.grant_type = "password"
     end
   end
 
