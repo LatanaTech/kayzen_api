@@ -37,6 +37,12 @@ Gem::Specification.new do |spec|
   spec.add_dependency "dry-types", "~> 1.7"
   spec.add_dependency "typhoeus", "~> 1.4"
 
+  spec.add_development_dependency "bundler"
+  spec.add_development_dependency "rake", "~> 13.0"
+  spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "byebug", "~> 11.1"
+  spec.add_development_dependency "webmock", "~> 3.19"
+
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
 end
