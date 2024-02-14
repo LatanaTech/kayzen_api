@@ -5,7 +5,14 @@ RSpec.describe KayzenApi::AuthenticationToken do
   let(:api_key) { "api_key" }
   let(:secret_api_key) { "secret_api_key" }
   let(:base_64_encoded_api_key) { "YXBpX2tleTpzZWNyZXRfYXBpX2tleQ==\n" }
-  # let(:headers) { { "Content-Type" => "application/json" } }
+  let(:oauth_token) { "oauth_token" }
+  let(:mock_authentication_response) do
+    {
+      "access_token" => oauth_token,
+      "expires_in" => 3600,
+      "scope" => ""
+    }.to_json
+  end
 
   before do
     KayzenApi::App.configure do |config|
@@ -29,12 +36,13 @@ RSpec.describe KayzenApi::AuthenticationToken do
           'Accept'=>'application/json',
           'Authorization'=> "Basic #{base_64_encoded_api_key}"
           })
-        .to_return(status: 200, body: "", headers: {})
+        .to_return(status: 200, body: mock_authentication_response, headers: {})
   end
 
   it "makes a post request" do
-    body_params = { username: "username", password: "secret", grant_type: "password" }
-    response = authentication_token.create(body: body_params)
+    expect {
+      authentication_token.create
+    }.to change { KayzenApi::App.config.oauth_token }.from(nil).to(oauth_token)
 
     expect(@stub).to have_been_requested
    end

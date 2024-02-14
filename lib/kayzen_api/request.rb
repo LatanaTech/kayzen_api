@@ -31,7 +31,16 @@ module KayzenApi
       options[:headers] = (options[:headers] || {}).merge({ "Accept" => "application/json"})
 
       request = Typhoeus::Request.new(target_url, options)
-      request.run
+      response = request.run
+      save_oauth_token(request)
+      request
+    end
+
+    def save_oauth_token(request)
+      return unless request.response.code == 200
+
+      json = JSON.parse(request.response.body)
+      App.config.oauth_token = json["access_token"]
     end
   end
 end
