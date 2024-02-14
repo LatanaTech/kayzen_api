@@ -40,17 +40,22 @@ RSpec.describe KayzenApi::AuthenticationToken do
           "access_token" => oauth_token,
           "expires_in" => 3600,
           "scope" => ""
-        }.to_json
+        }
       end
 
-      let(:mocked_response) { { status: 200, body: mock_authentication_response_body, headers: {} } }
+      let(:mocked_response) { { status: 200, body: mock_authentication_response_body.to_json, headers: {} } }
 
       it "makes a post request, saves the oauth token and returns the response" do
+        response = nil
+
         expect {
-          authentication_token.create
+          response = authentication_token.create
         }.to change { KayzenApi::App.config.oauth_token }.from(nil).to(oauth_token)
 
         expect(stubbed_request).to have_been_requested
+        expect(response.success).to eq(true)
+        expect(response.code).to eq(200)
+        expect(response.body).to eq(mock_authentication_response_body)
        end
     end
 
@@ -60,20 +65,26 @@ RSpec.describe KayzenApi::AuthenticationToken do
           config.oauth_token = nil
         end
       end
+
       let(:mock_authentication_response_body) do
         {
-          "error": "Incorrect username/password"
-        }.to_json
+          "error" => "Incorrect username/password"
+        }
       end
 
-      let(:mocked_response) { { status: 400, body: mock_authentication_response_body, headers: {} } }
+      let(:mocked_response) { { status: 400, body: mock_authentication_response_body.to_json, headers: {} } }
 
       it "doesn't change the saved token and returns the response" do
+        response = nil
+
         expect {
-          authentication_token.create
+          response = authentication_token.create
         }.not_to change { KayzenApi::App.config.oauth_token }.from(nil)
 
         expect(stubbed_request).to have_been_requested
+        expect(response.success).to eq(false)
+        expect(response.code).to eq(400)
+        expect(response.body).to eq(mock_authentication_response_body)
       end
     end
   end
