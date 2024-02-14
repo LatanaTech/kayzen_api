@@ -8,6 +8,7 @@ module KayzenApi
 
       options[:body] = body_params
       options[:headers] = (options[:headers] || {}).merge({ "Authorization" => "Basic #{base_64_encoded_api_key}" })
+
       super
     end
   end
