@@ -1,5 +1,6 @@
 require 'typhoeus'
 require 'base64'
+require 'json'
 
 module KayzenApi
   module Request
@@ -31,10 +32,13 @@ module KayzenApi
       options = add_headers(options)
       target_url = App.config.base_url + @path
 
-      response =
-        Typhoeus::Request
-          .new(target_url, options)
-          .run
+      request = Typhoeus::Request.new(target_url, options)
+
+      pp request
+
+      response = request.run
+
+      pp response
 
       handle_response(response)
     end

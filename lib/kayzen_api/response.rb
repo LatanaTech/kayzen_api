@@ -3,6 +3,5 @@ module KayzenApi
     attribute :success, Types::Bool
     attribute :code, Types::Integer
     attribute :body?, Types::Hash
-    attribute :errors?, Types::Hash
   end
 end
