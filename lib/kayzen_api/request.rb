@@ -43,8 +43,15 @@ module KayzenApi
       handle_response(response)
     end
 
+    def token_is_valid?
+      return false if App.config.oauth_token.nil?
+      return false if App.config.oauth_token_expires_at.nil?
+
+      App.config.oauth_token_expires_at > Time.now
+    end
+
     def authorize_request!
-      return if App.config.oauth_token.present? && App.config.oauth_token.valid?
+      return if token_is_valid?
 
       AuthenticationToken.create
     end
@@ -52,6 +59,7 @@ module KayzenApi
     def add_headers(options)
       options[:headers] = (options[:headers] || {}).merge({ "Content-Type" => "application/json" })
       options[:headers] = (options[:headers] || {}).merge({ "Accept" => "application/json"})
+      options[:headers] = (options[:headers] || {}).merge({ "Authorization" => "Bearer #{App.config.oauth_token}"}) if token_is_valid?
       options
     end
 
