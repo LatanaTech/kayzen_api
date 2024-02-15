@@ -29,7 +29,8 @@ module KayzenApi
         return super unless response.success?
 
         oauth_token = JSON.parse(response.body).fetch("access_token")
-        expires_at = Time.now + JSON.parse(response.body).fetch("expires_in")
+        expires_in = JSON.parse(response.body).fetch("expires_in").to_i
+        expires_at = (Time.now + expires_in) - 1.minute
         App.config.oauth_token = oauth_token
         App.config.oauth_token_expires_at = expires_at
 
