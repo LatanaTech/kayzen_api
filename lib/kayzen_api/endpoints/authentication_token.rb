@@ -30,7 +30,7 @@ module KayzenApi
 
         oauth_token = JSON.parse(response.body).fetch("access_token")
         expires_in = JSON.parse(response.body).fetch("expires_in").to_i
-        expires_at = (Time.now + expires_in) - 1.minute
+        expires_at = (Time.now + expires_in) - 60
         App.config.oauth_token = oauth_token
         App.config.oauth_token_expires_at = expires_at
 

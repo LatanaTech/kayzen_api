@@ -5,7 +5,7 @@ RSpec.describe KayzenApi::AuthenticationToken do
 
   let(:api_key) { "api_key" }
   let(:secret_api_key) { "secret_api_key" }
-  let(:base_64_encoded_api_key) { "YXBpX2tleTpzZWNyZXRfYXBpX2tleQ==\n" }
+  let(:base_64_encoded_api_key) { "YXBpX2tleTpzZWNyZXRfYXBpX2tleQ==" }
   let(:oauth_token) { "oauth_token" }
   let(:username) { "username" }
   let(:password) { "secret" }
@@ -14,7 +14,7 @@ RSpec.describe KayzenApi::AuthenticationToken do
     let!(:stubbed_request) do
       stub_request(:post, "https://api.kayzen.io/v1/authentication/token")
         .with(
-          body: "grant_type=password&password=#{password}&username=#{username}",
+          body: "{\"username\":\"username\",\"password\":\"secret\",\"grant_type\":\"password\"}",
           headers: {
           'Expect'=>'',
           'User-Agent'=>'Typhoeus - https://github.com/typhoeus/typhoeus',

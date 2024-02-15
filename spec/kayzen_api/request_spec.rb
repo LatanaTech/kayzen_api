@@ -1,5 +1,5 @@
 RSpec.describe KayzenApi::Request do
-  class KayzenApi::FakeEndpoint < BeeswaxAPI::Endpoint
+  class KayzenApi::FakeEndpoint < KayzenApi::Endpoint
   end
 
   context 'when the oauth token is present and not about to expire' do
@@ -8,7 +8,7 @@ RSpec.describe KayzenApi::Request do
     before do
       KayzenApi::App.configure do |config|
         config.oauth_token = oauth_token
-        config.oauth_token_expires_at = Time.now + 1.hour
+        config.oauth_token_expires_at = Time.now + 3600
         # config.api_key = api_key
         # config.secret_api_key = secret_api_key
         # config.username = username
