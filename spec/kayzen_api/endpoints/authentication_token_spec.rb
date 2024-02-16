@@ -16,11 +16,11 @@ RSpec.describe KayzenApi::AuthenticationToken do
         .with(
           body: "{\"username\":\"username\",\"password\":\"secret\",\"grant_type\":\"password\"}",
           headers: {
+            "Authorization" => "Basic #{base_64_encoded_api_key}",
             "Expect" => "",
             "User-Agent" => "Typhoeus - https://github.com/typhoeus/typhoeus",
             "Content-Type" => "application/json",
-            "Accept" => "application/json",
-            "Authorization" => "Basic #{base_64_encoded_api_key}"
+            "Accept" => "application/json"
           }
         )
         .to_return(mocked_response)

@@ -1,4 +1,4 @@
-require './lib/kayzen_api'
+require "./lib/kayzen_api"
 
 username = "jonathan.senior@latana.com"
 password = "NGXgNwhS^2O@FL8$"
@@ -10,7 +10,7 @@ KayzenApi::App.configure do |config|
   config.secret_api_key = secret_api_key
   config.username = username
   config.password = password
-  config.logger = Logger.new(STDOUT)
+  config.logger = Logger.new($stdout)
 end
 
-campaigns = KayzenApi::Campaign.get
+KayzenApi::Campaign.get

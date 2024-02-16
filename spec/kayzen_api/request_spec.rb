@@ -1,16 +1,16 @@
-RSpec.describe KayzenApi::Request do
-  class KayzenApi::FakeEndpoint < KayzenApi::Endpoint
-    path "fake_endpoint"
-  end
+class KayzenApi::FakeEndpoint < KayzenApi::Endpoint
+  path "fake_endpoint"
+end
 
+RSpec.describe KayzenApi::Request do
   context "when the oauth token is present and not about to expire" do
     let(:oauth_token) { "fake_oauth_token" }
     let!(:stubbed_request) do
       stub_request(:get, "https://api.kayzen.io/v1/fake_endpoint")
         .with(
           headers: {
+            "Authorization" => "Bearer #{oauth_token}",
             "Accept" => "application/json",
-            "Authorization" => "Bearer fake_oauth_token",
             "Content-Type" => "application/json",
             "Expect" => "",
             "User-Agent" => "Typhoeus - https://github.com/typhoeus/typhoeus"
@@ -81,8 +81,8 @@ RSpec.describe KayzenApi::Request do
         .with(
           body: "{\"username\":\"fake_username\",\"password\":\"fake_password\",\"grant_type\":\"password\"}",
           headers: {
-            "Accept" => "application/json",
             "Authorization" => "Basic ZmFrZV9hcGlfa2V5OmZha2Vfc2VjcmV0X2FwaV9rZXk=",
+            "Accept" => "application/json",
             "Content-Type" => "application/json",
             "Expect" => "",
             "User-Agent" => "Typhoeus - https://github.com/typhoeus/typhoeus"
@@ -103,8 +103,8 @@ RSpec.describe KayzenApi::Request do
       stub_request(:get, "https://api.kayzen.io/v1/fake_endpoint")
         .with(
           headers: {
-            "Accept" => "application/json",
             "Authorization" => "Bearer #{new_oauth_token}",
+            "Accept" => "application/json",
             "Content-Type" => "application/json",
             "Expect" => "",
             "User-Agent" => "Typhoeus - https://github.com/typhoeus/typhoeus"
