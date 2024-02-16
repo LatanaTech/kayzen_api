@@ -29,6 +29,18 @@ The Kayzen API has an `authentication/token` endpoint which issues an Oauth toke
 
 Your application code does not need to explicitly make an authentication request - the gem will do this if one is neccessary.
 
+## Usage
+
+Example usage:
+
+```ruby
+# Makes a request to https://api.kayzen.io/v1/campaigns
+KayzenApi::Campaign.get
+
+# The gem returns a Response object, where the body attribute contains the body of the API response from Kayzen
+# <KayzenApi::Response success=true code=200 body=[]>
+```
+
 ## Development
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).

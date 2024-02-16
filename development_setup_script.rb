@@ -12,4 +12,4 @@ KayzenApi::App.configure do |config|
   config.password = password
 end
 
-KayzenApi::Campaign.get
+campaigns = KayzenApi::Campaign.get
