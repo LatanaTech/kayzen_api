@@ -7,9 +7,5 @@ module KayzenApi
     def self.path(value)
       @path = value
     end
-
-    def self.save_oauth_token(response)
-      nil
-    end
   end
 end
