@@ -1,28 +1,41 @@
 # KayzenApi
 
-TODO: Delete this and the text below, and describe your gem
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/kayzen_api`. To experiment with that code, run `bin/console` for an interactive prompt.
+This gem is a wrapper for the [Kayzen REST Api](https://developers.kayzen.io). Kayzen is a bidder for mobile advertising.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+Add the gem to your Gemfile with:
 
-Install the gem and add to the application's Gemfile by executing:
+```ruby
+gem 'kayzen_api'
+```
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
-
-If bundler is not being used to manage dependencies, install the gem by executing:
-
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+and then run `bundle install`.
 
 ## Usage
 
-TODO: Write usage instructions here
+The gem must be configured with the following options:
+- username
+- password
+- api_key
+- secret_api_key
+
+Here's an example configuration:
+
+```ruby
+KayzenApi::App.configure do |config|
+  config.api_key = "api-key"
+  config.secret_api_key = "secret-api-key"
+  config.username = "username"
+  config.password = "password"
+end
+```
+
+## Authentication
+
+The Kayzen API has an `authentication/token` endpoint which issues an Oauth token that expires after 30 minutes. This gem ensures that there is always a valid Oauth token present before making a request (and requests that token if not). Your application code does not need to explicitly make an authentication request - the gem will do this if one is neccessary.
 
 ## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
