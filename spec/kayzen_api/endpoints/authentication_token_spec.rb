@@ -16,14 +16,15 @@ RSpec.describe KayzenApi::AuthenticationToken do
         .with(
           body: "{\"username\":\"username\",\"password\":\"secret\",\"grant_type\":\"password\"}",
           headers: {
-          'Expect'=>'',
-          'User-Agent'=>'Typhoeus - https://github.com/typhoeus/typhoeus',
-          'Content-Type'=>'application/json',
-          'Accept'=>'application/json',
-          'Authorization'=> "Basic #{base_64_encoded_api_key}"
-          })
+            "Expect" => "",
+            "User-Agent" => "Typhoeus - https://github.com/typhoeus/typhoeus",
+            "Content-Type" => "application/json",
+            "Accept" => "application/json",
+            "Authorization" => "Basic #{base_64_encoded_api_key}"
+          }
+        )
         .to_return(mocked_response)
-      end
+    end
 
     before do
       KayzenApi::App.configure do |config|
@@ -43,7 +44,7 @@ RSpec.describe KayzenApi::AuthenticationToken do
         }
       end
 
-      let(:mocked_response) { { status: 200, body: mock_authentication_response_body.to_json, headers: {} } }
+      let(:mocked_response) { {status: 200, body: mock_authentication_response_body.to_json, headers: {}} }
 
       it "makes a post request, saves the oauth token and returns the response" do
         response = nil
@@ -51,13 +52,13 @@ RSpec.describe KayzenApi::AuthenticationToken do
         expect {
           response = authentication_token.create
         }.to change { KayzenApi::App.config.oauth_token }.from(nil).to(oauth_token)
-        .and change { KayzenApi::App.config.oauth_token_expires_at }.from(nil)
+          .and change { KayzenApi::App.config.oauth_token_expires_at }.from(nil)
 
         expect(stubbed_request).to have_been_requested
         expect(response.success).to eq(true)
         expect(response.code).to eq(200)
         expect(response.body).to eq(mock_authentication_response_body)
-       end
+      end
     end
 
     context "when the request fails" do
@@ -73,7 +74,7 @@ RSpec.describe KayzenApi::AuthenticationToken do
         }
       end
 
-      let(:mocked_response) { { status: 400, body: mock_authentication_response_body.to_json, headers: {} } }
+      let(:mocked_response) { {status: 400, body: mock_authentication_response_body.to_json, headers: {}} }
 
       it "doesn't change the saved token and returns the response" do
         response = nil

@@ -3,19 +3,20 @@ RSpec.describe KayzenApi::Request do
     path "fake_endpoint"
   end
 
-  context 'when the oauth token is present and not about to expire' do
-    let(:oauth_token) { 'fake_oauth_token' }
+  context "when the oauth token is present and not about to expire" do
+    let(:oauth_token) { "fake_oauth_token" }
     let!(:stubbed_request) do
-      stub_request(:get, "https://api.kayzen.io/v1/fake_endpoint").
-      with(
-        headers: {
-        'Accept'=>'application/json',
-        'Authorization'=>'Bearer fake_oauth_token',
-        'Content-Type'=>'application/json',
-        'Expect'=>'',
-        'User-Agent'=>'Typhoeus - https://github.com/typhoeus/typhoeus'
-        }).
-      to_return(mocked_response)
+      stub_request(:get, "https://api.kayzen.io/v1/fake_endpoint")
+        .with(
+          headers: {
+            "Accept" => "application/json",
+            "Authorization" => "Bearer fake_oauth_token",
+            "Content-Type" => "application/json",
+            "Expect" => "",
+            "User-Agent" => "Typhoeus - https://github.com/typhoeus/typhoeus"
+          }
+        )
+        .to_return(mocked_response)
     end
 
     before do
@@ -25,11 +26,11 @@ RSpec.describe KayzenApi::Request do
       end
     end
 
-    context 'when the request succeeds' do
-      let(:mocked_response) { { status: 200, body: mock_response_body.to_json, headers: {} } }
-      let(:mock_response_body) { { "fake_response" => "fake_response" } }
+    context "when the request succeeds" do
+      let(:mocked_response) { {status: 200, body: mock_response_body.to_json, headers: {}} }
+      let(:mock_response_body) { {"fake_response" => "fake_response"} }
 
-      it 'returns a success response' do
+      it "returns a success response" do
         response = KayzenApi::FakeEndpoint.get
 
         expect(stubbed_request).to have_been_requested
@@ -39,11 +40,11 @@ RSpec.describe KayzenApi::Request do
       end
     end
 
-    context 'when the request fails' do
-      let(:mocked_response) { { status: 500, body: mock_response_body.to_json, headers: {} } }
-      let(:mock_response_body) { { "error" => "fake_error" } }
+    context "when the request fails" do
+      let(:mocked_response) { {status: 500, body: mock_response_body.to_json, headers: {}} }
+      let(:mock_response_body) { {"error" => "fake_error"} }
 
-      it 'returns an error response' do
+      it "returns an error response" do
         response = KayzenApi::FakeEndpoint.get
 
         expect(stubbed_request).to have_been_requested
@@ -54,13 +55,13 @@ RSpec.describe KayzenApi::Request do
     end
   end
 
-  context 'when the oauth token has expired' do
-    let(:old_oauth_token) { 'old_oauth_token' }
-    let(:new_oauth_token) { 'new_oauth_token' }
-    let(:api_key) { 'fake_api_key' }
-    let(:secret_api_key) { 'fake_secret_api_key' }
-    let(:username) { 'fake_username' }
-    let(:password) { 'fake_password' }
+  context "when the oauth token has expired" do
+    let(:old_oauth_token) { "old_oauth_token" }
+    let(:new_oauth_token) { "new_oauth_token" }
+    let(:api_key) { "fake_api_key" }
+    let(:secret_api_key) { "fake_secret_api_key" }
+    let(:username) { "fake_username" }
+    let(:password) { "fake_password" }
 
     before do
       KayzenApi::App.configure do |config|
@@ -77,16 +78,17 @@ RSpec.describe KayzenApi::Request do
     # using the new oauth token from the authentication request.
     let!(:stubbed_authentication_request) do
       stub_request(:post, "https://api.kayzen.io/v1/authentication/token")
-      .with(
-        body: "{\"username\":\"fake_username\",\"password\":\"fake_password\",\"grant_type\":\"password\"}",
-        headers: {
-        'Accept'=>'application/json',
-        'Authorization'=>'Basic ZmFrZV9hcGlfa2V5OmZha2Vfc2VjcmV0X2FwaV9rZXk=',
-        'Content-Type'=>'application/json',
-        'Expect'=>'',
-        'User-Agent'=>'Typhoeus - https://github.com/typhoeus/typhoeus'
-        })
-      .to_return(mock_authentication_response)
+        .with(
+          body: "{\"username\":\"fake_username\",\"password\":\"fake_password\",\"grant_type\":\"password\"}",
+          headers: {
+            "Accept" => "application/json",
+            "Authorization" => "Basic ZmFrZV9hcGlfa2V5OmZha2Vfc2VjcmV0X2FwaV9rZXk=",
+            "Content-Type" => "application/json",
+            "Expect" => "",
+            "User-Agent" => "Typhoeus - https://github.com/typhoeus/typhoeus"
+          }
+        )
+        .to_return(mock_authentication_response)
     end
     let(:mock_authentication_response_body) do
       {
@@ -95,22 +97,23 @@ RSpec.describe KayzenApi::Request do
         "scope" => ""
       }
     end
-    let(:mock_authentication_response) { { status: 200, body: mock_authentication_response_body.to_json, headers: {} } }
+    let(:mock_authentication_response) { {status: 200, body: mock_authentication_response_body.to_json, headers: {}} }
 
     let!(:stubbed_fake_endpoint_request) do
       stub_request(:get, "https://api.kayzen.io/v1/fake_endpoint")
-      .with(
-        headers: {
-        'Accept'=>'application/json',
-        'Authorization'=>"Bearer #{new_oauth_token}",
-        'Content-Type'=>'application/json',
-        'Expect'=>'',
-        'User-Agent'=>'Typhoeus - https://github.com/typhoeus/typhoeus'
-        })
-      .to_return(mock_fake_endpoint_response)
+        .with(
+          headers: {
+            "Accept" => "application/json",
+            "Authorization" => "Bearer #{new_oauth_token}",
+            "Content-Type" => "application/json",
+            "Expect" => "",
+            "User-Agent" => "Typhoeus - https://github.com/typhoeus/typhoeus"
+          }
+        )
+        .to_return(mock_fake_endpoint_response)
     end
-    let(:mock_fake_endpoint_response) { { status: 200, body: mock_fake_endpoint_response_body.to_json, headers: {} } }
-    let(:mock_fake_endpoint_response_body) { { "fake_response" => "fake_response" } }
+    let(:mock_fake_endpoint_response) { {status: 200, body: mock_fake_endpoint_response_body.to_json, headers: {}} }
+    let(:mock_fake_endpoint_response_body) { {"fake_response" => "fake_response"} }
 
     it "makes a new authentication request, saves the new oauth token and uses it to make the original request" do
       response = nil

@@ -1,6 +1,6 @@
-require 'typhoeus'
-require 'base64'
-require 'json'
+require "typhoeus"
+require "base64"
+require "json"
 
 module KayzenApi
   module Request
@@ -57,9 +57,9 @@ module KayzenApi
     end
 
     def add_headers(options)
-      options[:headers] = (options[:headers] || {}).merge({ "Content-Type" => "application/json" })
-      options[:headers] = (options[:headers] || {}).merge({ "Accept" => "application/json"})
-      options[:headers] = (options[:headers] || {}).merge({ "Authorization" => "Bearer #{App.config.oauth_token}"}) if token_is_valid?
+      options[:headers] = (options[:headers] || {}).merge({"Content-Type" => "application/json"})
+      options[:headers] = (options[:headers] || {}).merge({"Accept" => "application/json"})
+      options[:headers] = (options[:headers] || {}).merge({"Authorization" => "Bearer #{App.config.oauth_token}"}) if token_is_valid?
       options
     end
 

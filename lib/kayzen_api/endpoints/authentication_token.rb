@@ -1,11 +1,10 @@
-require 'json'
+require "json"
 
 module KayzenApi
   class AuthenticationToken < Endpoint
     path "authentication/token"
 
     class << self
-
       private
 
       def authorize_request!
@@ -16,11 +15,11 @@ module KayzenApi
       end
 
       def add_headers(options)
-        body_params = { username: App.config.username, password: App.config.password, grant_type: "password" }
+        body_params = {username: App.config.username, password: App.config.password, grant_type: "password"}
         base_64_encoded_api_key = Base64.strict_encode64("#{App.config.api_key}:#{App.config.secret_api_key}")
 
         options[:body] = body_params.to_json
-        options[:headers] = (options[:headers] || {}).merge({ "Authorization" => "Basic #{base_64_encoded_api_key}" })
+        options[:headers] = (options[:headers] || {}).merge({"Authorization" => "Basic #{base_64_encoded_api_key}"})
 
         super
       end

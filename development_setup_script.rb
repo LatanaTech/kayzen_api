@@ -1,4 +1,4 @@
-require './lib/kayzen_api'
+require "./lib/kayzen_api"
 
 username = "jonathan.senior@latana.com"
 password = "NGXgNwhS^2O@FL8$"

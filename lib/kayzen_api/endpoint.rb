@@ -1,4 +1,4 @@
-require 'kayzen_api/request'
+require "kayzen_api/request"
 
 module KayzenApi
   class Endpoint
@@ -9,7 +9,7 @@ module KayzenApi
     end
 
     def self.save_oauth_token(response)
-      return
+      nil
     end
   end
 end

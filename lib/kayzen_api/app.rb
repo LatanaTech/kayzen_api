@@ -1,4 +1,4 @@
-require 'dry-configurable'
+require "dry-configurable"
 
 module KayzenApi
   class App
