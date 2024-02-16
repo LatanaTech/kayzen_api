@@ -26,7 +26,8 @@ module KayzenApi
 
     private
 
-    # The headers and response handling are overridden in the AuthenticationToken class, which is a special case
+    # The authorization, headers and response handling are overridden when making an authentication request
+    # in the AuthenticationToken class, which is a special case
     def make_request(**options)
       authorize_request!
 
