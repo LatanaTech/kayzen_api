@@ -56,7 +56,9 @@ KayzenApi::Campaign.get
 1. Clone this repo
 2. Ensure you have the ruby-version defined in `.ruby-version`
 3. `bundle install` to install all the gems
-4. Open an IRB console with the gem loaded: `irb -I lib -r  ./lib/kayzen_api.rb`
+4. `cp .env .env.development` then add your Kayzen credentials to `.env.development`
+5. Open an IRB console with the gem loaded: `irb -I lib -r  ./lib/kayzen_api.rb`
+6. Run the script at `development_setup_script.rb` to configure the gem with your credentials from the `.env.development` file
 
 For linting, run `standardrb --fix`
 

@@ -1,15 +1,13 @@
+require "dotenv"
 require "./lib/kayzen_api"
 
-username = "jonathan.senior@latana.com"
-password = "NGXgNwhS^2O@FL8$"
-api_key = "85c7cb16595741234eca24fda76d9eca6b1e02fd"
-secret_api_key = "8w1AGZiMhFs7t5vK"
+Dotenv.load(".env.development")
 
 KayzenApi::App.configure do |config|
-  config.api_key = api_key
-  config.secret_api_key = secret_api_key
-  config.username = username
-  config.password = password
+  config.api_key = ENV["API_KEY"]
+  config.secret_api_key = ENV["SECRET_API_KEY"]
+  config.username = ENV["USERNAME"]
+  config.password = ENV["PASSWORD"]
   config.logger = Logger.new($stdout)
 end
 

@@ -43,6 +43,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "byebug", "~> 11.1"
   spec.add_development_dependency "webmock", "~> 3.19"
   spec.add_development_dependency "standard", "~> 1.31"
+  spec.add_development_dependency "dotenv", "~> 3.0"
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
