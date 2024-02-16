@@ -12,15 +12,9 @@ gem 'kayzen_api'
 
 and then run `bundle install`.
 
-## Usage
+## Configuration and Authentication
 
-The gem must be configured with the following options:
-- username
-- password
-- api_key
-- secret_api_key
-
-Here's an example configuration:
+The gem must be configured with the following options (we recommend adding this to an initializer in your application):
 
 ```ruby
 KayzenApi::App.configure do |config|
@@ -31,9 +25,9 @@ KayzenApi::App.configure do |config|
 end
 ```
 
-## Authentication
+The Kayzen API has an `authentication/token` endpoint which issues an Oauth token that expires after 30 minutes. This gem ensures that there is always a valid Oauth token present before making a request (and requests that token if not).
 
-The Kayzen API has an `authentication/token` endpoint which issues an Oauth token that expires after 30 minutes. This gem ensures that there is always a valid Oauth token present before making a request (and requests that token if not). Your application code does not need to explicitly make an authentication request - the gem will do this if one is neccessary.
+Your application code does not need to explicitly make an authentication request - the gem will do this if one is neccessary.
 
 ## Development
 
