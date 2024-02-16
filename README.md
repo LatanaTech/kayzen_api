@@ -46,9 +46,9 @@ KayzenApi::Campaign.get
 1. Clone this repo
 2. Ensure you have the ruby-version defined in `.ruby-version`
 3. `bundle install` to install all the gems
-4. Open an IRB console with the gem loaded and ready for use: `irb -I lib -r  ./lib/kayzen_api.rb`
+4. Open an IRB console with the gem loaded: `irb -I lib -r  ./lib/kayzen_api.rb`
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+For linting, run `standardrb --fix`
 
 ## Contributing
 
