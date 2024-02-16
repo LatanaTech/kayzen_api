@@ -34,12 +34,10 @@ module KayzenApi
       target_url = App.config.base_url + @path
 
       request = Typhoeus::Request.new(target_url, options)
-
-      pp request
+      App.log(request)
 
       response = request.run
-
-      pp response
+      App.log(response)
 
       handle_response(response)
     end

@@ -12,7 +12,7 @@ gem 'kayzen_api', git: "https://github.com/LatanaTech/kayzen_api"
 
 and then run `bundle install`.
 
-## Configuration and Authentication
+## Configuration
 
 The gem must be configured with the following options (we recommend adding this to an initializer in your application):
 
@@ -24,6 +24,16 @@ KayzenApi::App.configure do |config|
   config.password = "password"
 end
 ```
+
+Optionally, you can also pass a custom logger like this (by default the gem will not generate logs):
+
+```ruby
+KayzenApi::App.configure do |config|
+  config.logger = Rails.logger # Could also use Logger.new(STDOUT)
+end
+```
+
+## Authentication
 
 The Kayzen API has an `authentication/token` endpoint which issues an Oauth token that expires after 30 minutes. This gem ensures that there is always a valid Oauth token present before making a request (and requests that token if not).
 

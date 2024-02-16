@@ -12,5 +12,10 @@ module KayzenApi
     setting :api_key
     setting :secret_api_key
     setting :logger
+
+    def self.log(message)
+      logger = App.config.logger
+      logger&.info(message)
+    end
   end
 end
