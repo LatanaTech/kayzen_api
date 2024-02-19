@@ -38,6 +38,57 @@ RSpec.describe KayzenApi::Request do
         expect(response.code).to eq(200)
         expect(response.body).to eq(mock_response_body)
       end
+
+      context "when `path` is present" do
+        let!(:stubbed_request) do
+          stub_request(:get, "https://api.kayzen.io/v1/fake_endpoint/id")
+            .with(
+              headers: {
+                "Authorization" => "Bearer #{oauth_token}",
+                "Accept" => "application/json",
+                "Content-Type" => "application/json",
+                "Expect" => "",
+                "User-Agent" => "Typhoeus - https://github.com/typhoeus/typhoeus"
+              }
+            )
+            .to_return(mocked_response)
+        end
+
+        it "returns a success response" do
+          response = KayzenApi::FakeEndpoint.get(path: "id")
+
+          expect(stubbed_request).to have_been_requested
+          expect(response.success).to eq(true)
+          expect(response.code).to eq(200)
+          expect(response.body).to eq(mock_response_body)
+        end
+      end
+
+      context "when `body` is present" do
+        let!(:stubbed_request) do
+          stub_request(:post, "https://api.kayzen.io/v1/fake_endpoint")
+            .with(
+              headers: {
+                "Authorization" => "Bearer #{oauth_token}",
+                "Accept" => "application/json",
+                "Content-Type" => "application/json",
+                "Expect" => "",
+                "User-Agent" => "Typhoeus - https://github.com/typhoeus/typhoeus"
+              },
+              body: "{\"id\":\"id\"}"
+            )
+            .to_return(mocked_response)
+        end
+
+        it "returns a success response" do
+          response = KayzenApi::FakeEndpoint.create(body: {id: "id"}.to_json)
+
+          expect(stubbed_request).to have_been_requested
+          expect(response.success).to eq(true)
+          expect(response.code).to eq(200)
+          expect(response.body).to eq(mock_response_body)
+        end
+      end
     end
 
     context "when the request fails" do
