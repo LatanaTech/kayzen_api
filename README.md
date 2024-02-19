@@ -41,22 +41,6 @@ Your application code does not need to explicitly make an authentication request
 
 ## Usage
 
-To start work with `Beeswaxapi` you need setup your config.
-
-### Configuration
-
-Example configuration for basic auth authentication:
-
-```ruby
-KayzenApi::App.configure do |config|
-  config.api_key = ENV["KAYZEN_API_API_KEY"]
-  config.secret_api_key = ENV["KAYZEN_API_SECRET_API_KEY"]
-  config.username = ENV["KAYZEN_USERNAME"]
-  config.password = ENV["KAYZEN_PASSWORD"]
-  config.logger = Logger.new($stdout)
-end
-```
-
 ```ruby
 # Makes a request to https://api.kayzen.io/v1/campaigns
 KayzenApi::Campaign.get
