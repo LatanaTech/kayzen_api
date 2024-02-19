@@ -41,7 +41,21 @@ Your application code does not need to explicitly make an authentication request
 
 ## Usage
 
-Example usage:
+To start work with `Beeswaxapi` you need setup your config.
+
+### Configuration
+
+Example configuration for basic auth authentication:
+
+```ruby
+KayzenApi::App.configure do |config|
+  config.api_key = ENV["KAYZEN_API_API_KEY"]
+  config.secret_api_key = ENV["KAYZEN_API_SECRET_API_KEY"]
+  config.username = ENV["KAYZEN_USERNAME"]
+  config.password = ENV["KAYZEN_PASSWORD"]
+  config.logger = Logger.new($stdout)
+end
+```
 
 ```ruby
 # Makes a request to https://api.kayzen.io/v1/campaigns
@@ -50,6 +64,18 @@ KayzenApi::Campaign.get
 # The gem returns a Response object, where the body attribute contains the body of the API response from Kayzen
 # <KayzenApi::Response success=true code=200 body=[]>
 ```
+
+```ruby
+# Make a request with custom path and params
+ KayzenApi::Report.get(path: "866803/report_results", params: {start_date: "2024-
+02-01", end_date: "2024-02-19"})
+```
+
+```ruby
+# Make a request for creating an entity (POST)
+KayzenApi::CreativesBulk.create(body: {creatives: [params]})
+```
+
 
 ## Development
 

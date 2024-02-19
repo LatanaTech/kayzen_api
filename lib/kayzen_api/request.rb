@@ -34,6 +34,9 @@ module KayzenApi
       options = add_headers(options)
       target_url = App.config.base_url + @path
 
+      if options.has_key? :path
+        target_url = [target_url, options.delete(:path)].join('/')
+      end
       request = Typhoeus::Request.new(target_url, options)
       App.log(request)
 
@@ -63,11 +66,17 @@ module KayzenApi
       options
     end
 
+    def parse_body(body)
+      return {} if body.nil? || body.empty?
+
+      JSON.parse(body)
+    end
+
     def handle_response(response)
       if response.success?
-        Response.new(success: true, code: response.code, body: JSON.parse(response.body))
+        Response.new(success: true, code: response.code, body: parse_body(response.body))
       else
-        Response.new(success: false, code: response.code, body: JSON.parse(response.body))
+        Response.new(success: false, code: response.code, body: parse_body(response.body))
       end
     end
   end
