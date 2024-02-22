@@ -2,6 +2,10 @@ class KayzenApi::FakeEndpoint < KayzenApi::Endpoint
   path "fake_endpoint"
 end
 
+class KayzenApi::FakeEndpointWithId < KayzenApi::Endpoint
+  path "fake_endpoint/:id/status"
+end
+
 RSpec.describe KayzenApi::Request do
   context "when the oauth token is present and not about to expire" do
     let(:oauth_token) { "fake_oauth_token" }
@@ -56,6 +60,81 @@ RSpec.describe KayzenApi::Request do
 
         it "returns a success response" do
           response = KayzenApi::FakeEndpoint.get(path: "id")
+
+          expect(stubbed_request).to have_been_requested
+          expect(response.success).to eq(true)
+          expect(response.code).to eq(200)
+          expect(response.body).to eq(mock_response_body)
+        end
+      end
+
+      context "when `id` is present" do
+        let!(:stubbed_request) do
+          stub_request(:get, "https://api.kayzen.io/v1/fake_endpoint/123")
+            .with(
+              headers: {
+                "Authorization" => "Bearer #{oauth_token}",
+                "Accept" => "application/json",
+                "Content-Type" => "application/json",
+                "Expect" => "",
+                "User-Agent" => "Typhoeus - https://github.com/typhoeus/typhoeus"
+              }
+            )
+            .to_return(mocked_response)
+        end
+
+        it "returns a success response" do
+          response = KayzenApi::FakeEndpoint.get(id: 123)
+
+          expect(stubbed_request).to have_been_requested
+          expect(response.success).to eq(true)
+          expect(response.code).to eq(200)
+          expect(response.body).to eq(mock_response_body)
+        end
+
+        context "when an endpoint wiht :id in the path" do
+          let!(:stubbed_request) do
+            stub_request(:get, "https://api.kayzen.io/v1/fake_endpoint/123/status")
+              .with(
+                headers: {
+                  "Authorization" => "Bearer #{oauth_token}",
+                  "Accept" => "application/json",
+                  "Content-Type" => "application/json",
+                  "Expect" => "",
+                  "User-Agent" => "Typhoeus - https://github.com/typhoeus/typhoeus"
+                }
+              )
+              .to_return(mocked_response)
+          end
+
+          it "returns a success response" do
+            response = KayzenApi::FakeEndpointWithId.get(id: 123)
+
+            expect(stubbed_request).to have_been_requested
+            expect(response.success).to eq(true)
+            expect(response.code).to eq(200)
+            expect(response.body).to eq(mock_response_body)
+          end
+        end
+      end
+
+      context "when `id` is in options and in path present" do
+        let!(:stubbed_request) do
+          stub_request(:get, "https://api.kayzen.io/v1/fake_endpoint/id")
+            .with(
+              headers: {
+                "Authorization" => "Bearer #{oauth_token}",
+                "Accept" => "application/json",
+                "Content-Type" => "application/json",
+                "Expect" => "",
+                "User-Agent" => "Typhoeus - https://github.com/typhoeus/typhoeus"
+              }
+            )
+            .to_return(mocked_response)
+        end
+
+        it "returns a success response" do
+          response = KayzenApi::FakeEndpoint.get(id: "id")
 
           expect(stubbed_request).to have_been_requested
           expect(response.success).to eq(true)

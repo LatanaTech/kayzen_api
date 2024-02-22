@@ -32,18 +32,31 @@ module KayzenApi
       authorize_request!
 
       options = add_headers(options)
-      target_url = App.config.base_url + @path
 
-      if options.has_key? :path
-        target_url = [target_url, options.delete(:path)].join('/')
-      end
-      request = Typhoeus::Request.new(target_url, options)
+      request = Typhoeus::Request.new(target_url(options), options)
       App.log(request)
 
       response = request.run
       App.log(response)
 
       handle_response(response)
+    end
+
+    def target_url(options)
+      target_url = App.config.base_url + @path
+      if options.has_key?(:id)
+        if @path.include?(":id")
+          # the case when the path contains :id like the following "reports/:id/report_results"
+          target_url.gsub!(":id", options.delete(:id).to_s)
+        else
+          # the case when the path doesn't containt :id but there is an id in the options
+          [target_url, options.delete(:id).to_s].join('/')
+        end
+      elsif options.has_key? :path
+        [target_url, options.delete(:path).to_s].join('/')
+      else
+        target_url
+      end
     end
 
     def token_is_valid?
