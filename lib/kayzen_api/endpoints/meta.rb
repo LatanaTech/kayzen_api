@@ -15,5 +15,9 @@ module KayzenApi
     class Cities < Endpoint
       path "meta/cities"
     end
+
+    class Timezones < Endpoint
+      path "meta/time_zones"
+    end
   end
 end
