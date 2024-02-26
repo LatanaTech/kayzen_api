@@ -32,9 +32,8 @@ module KayzenApi
       authorize_request!
 
       options = add_headers(options)
-      target_url = App.config.base_url + @path
 
-      request = Typhoeus::Request.new(target_url, options)
+      request = Typhoeus::Request.new(target_url(options), options)
       App.log(request)
 
       response = request.run
@@ -43,6 +42,27 @@ module KayzenApi
       handle_response(response)
     end
 
+    def target_url(options)
+      target_url = App.config.base_url + @path
+      if options.has_key?(:id)
+        add_id_to_path(target_url, options.delete(:id).to_s)
+      elsif options.has_key? :path
+        [target_url, options.delete(:path).to_s].join('/')
+      else
+        target_url
+      end
+    end
+
+    def add_id_to_path(target_url, id)
+      if @path.include?(":id")
+        # the case when the path contains :id like the following "reports/:id/report_results"
+        target_url.gsub!(":id", id)
+      else
+        # the case when the path doesn't containt :id but there is an id in the options
+        # example: KayzenApi::Campaign.get(id: id)
+        [target_url, id].join('/')
+      end
+    end
     def token_is_valid?
       return false if App.config.oauth_token.nil?
       return false if App.config.oauth_token_expires_at.nil?
@@ -63,11 +83,17 @@ module KayzenApi
       options
     end
 
+    def parse_body(body)
+      return {} if body.nil? || body.empty?
+
+      JSON.parse(body)
+    end
+
     def handle_response(response)
       if response.success?
-        Response.new(success: true, code: response.code, body: JSON.parse(response.body))
+        Response.new(success: true, code: response.code, body: parse_body(response.body))
       else
-        Response.new(success: false, code: response.code, body: JSON.parse(response.body))
+        Response.new(success: false, code: response.code, body: parse_body(response.body))
       end
     end
   end

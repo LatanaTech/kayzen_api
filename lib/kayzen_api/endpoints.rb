@@ -1,2 +1,3 @@
-require "kayzen_api/endpoints/authentication_token"
-require "kayzen_api/endpoints/campaign"
+Dir[File.join(__dir__, 'endpoints', '**','*.rb')].each do |file|
+  require file
+end

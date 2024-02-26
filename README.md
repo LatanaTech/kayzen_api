@@ -41,8 +41,6 @@ Your application code does not need to explicitly make an authentication request
 
 ## Usage
 
-Example usage:
-
 ```ruby
 # Makes a request to https://api.kayzen.io/v1/campaigns
 KayzenApi::Campaign.get
@@ -50,6 +48,18 @@ KayzenApi::Campaign.get
 # The gem returns a Response object, where the body attribute contains the body of the API response from Kayzen
 # <KayzenApi::Response success=true code=200 body=[]>
 ```
+
+```ruby
+# Make a request with custom path and params
+ KayzenApi::Report.get(path: "866803/report_results", params: {start_date: "2024-
+02-01", end_date: "2024-02-19"})
+```
+
+```ruby
+# Make a request for creating an entity (POST)
+KayzenApi::CreativesBulk.create(body: {creatives: [params]})
+```
+
 
 ## Development
 
