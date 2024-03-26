@@ -47,7 +47,7 @@ module KayzenApi
       if options.has_key?(:id)
         add_id_to_path(target_url, options.delete(:id).to_s)
       elsif options.has_key? :path
-        [target_url, options.delete(:path).to_s].join('/')
+        [target_url, options.delete(:path).to_s].join("/")
       else
         target_url
       end
@@ -60,9 +60,10 @@ module KayzenApi
       else
         # the case when the path doesn't containt :id but there is an id in the options
         # example: KayzenApi::Campaign.get(id: id)
-        [target_url, id].join('/')
+        [target_url, id].join("/")
       end
     end
+
     def token_is_valid?
       return false if App.config.oauth_token.nil?
       return false if App.config.oauth_token_expires_at.nil?
