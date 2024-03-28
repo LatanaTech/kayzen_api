@@ -19,5 +19,13 @@ module KayzenApi
     class Timezones < Endpoint
       path "meta/time_zones"
     end
+
+    class SiteObjects < Endpoint
+      path "meta/site_objects"
+    end
+
+    class AppObjects < Endpoint
+      path "meta/app_objects"
+    end
   end
 end

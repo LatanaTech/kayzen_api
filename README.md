@@ -47,6 +47,18 @@ KayzenApi::Campaign.get
 
 # The gem returns a Response object, where the body attribute contains the body of the API response from Kayzen
 # <KayzenApi::Response success=true code=200 body=[]>
+
+# If you need to pass params to the request, you can do so like this
+KayzenApi::Campaign.get(params: {q: "Demo"})
+
+# The gem supports some shorthands for making requests, like following:
+KayzenApi::Campaign.get(id: "866803")
+
+# You can also set headers for the request
+KayzenApi::Campaign.get(headers: {"Accept" => "application/json"})
+
+# Some endpoints are implemented as nested resources, like this
+KayzenApi::Campaign::Detail.get(id: "866803")
 ```
 
 ```ruby
@@ -74,7 +86,7 @@ For linting, run `standardrb --fix`
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/kayzen_api.
+Bug reports and pull requests are welcome on GitHub at https://github.com/LatanaTech/kayzen_api.
 
 ## License
 
