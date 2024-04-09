@@ -19,6 +19,11 @@ module KayzenApi
       make_request(**options)
     end
 
+    def patch_update(**options)
+      options[:method] = :patch
+      make_request(**options)
+    end
+
     def delete(**options)
       options[:method] = :delete
       make_request(**options)
