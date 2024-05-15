@@ -39,10 +39,12 @@ module KayzenApi
       options = add_headers(options)
 
       request = Typhoeus::Request.new(target_url(options), options)
-      App.log(request)
+      App.log(request.inspect)
 
       response = request.run
-      App.log(response)
+
+      log_info = "Finished: #{response.effective_url}\nCode: #{response.code}\nBody: #{response.body}"
+      App.log(log_info)
 
       handle_response(response)
     end
